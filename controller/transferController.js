@@ -11,3 +11,7 @@ exports.transfer = (req, res) => {
   }
   res.status(201).json({ transfer: result.transfer });
 };
+
+exports.listTransfers = (req, res) => {
+  res.json({ transfers: transferService.listTransfers() });
+};

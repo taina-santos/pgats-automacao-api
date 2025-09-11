@@ -21,3 +21,11 @@ Na prática:
   REST - O endpoint chamará o tipo de request (get/post/put/delete)
   APLICAÇÃO - O request chamará o método da camada de service para realizar a operação
   APLICAÇÃO - O método service chamará o método na camada de model, que irá se conectar com o db para coletar os dados usados para a operação
+
+No arquivo de rotas, é possível saber se o enpoint precisa ou não estar logado, através da validação do token
+  - Essa validação é feita na camada de controller
+
+Caso algum parâmetro da requisição esteja errado, cabe a camada de service informar para as camadas superiores do erro
+
+A arquitetura criada pelo copilot tem os seguintes erros estruturais:
+  - 

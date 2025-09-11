@@ -1,4 +1,5 @@
-const { users, transfers } = require('../model/userModel');
+const { users } = require('../model/userModel');
+const { transfers } = require('../model/transferModel');
 
 function transfer({ from, to, amount }) {
   const sender = users.find(u => u.username === from);
@@ -13,6 +14,7 @@ function transfer({ from, to, amount }) {
   if (!isFavorecido && amount >= 5000) {
     return { error: 'Transferências acima de R$ 5.000,00 só podem ser feitas para favorecidos' };
   }
+  
   sender.saldo -= amount;
   recipient.saldo += amount;
   const transfer = { from, to, amount, date: new Date() };
@@ -20,6 +22,11 @@ function transfer({ from, to, amount }) {
   return { transfer };
 }
 
+function listTransfers() {
+  return transfers.map(t => ({ from: t.from, to: t.to, amount: t.amount, date: t.date }));
+}
+
 module.exports = {
-  transfer
+  transfer,
+  listTransfers
 };

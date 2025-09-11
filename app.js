@@ -14,6 +14,7 @@ app.get('/users', userController.list);
 
 // Transfer route
 app.post('/transfer', transferController.transfer);
+app.get('/transfer', transferController.listTransfers);
 
 // Swagger docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

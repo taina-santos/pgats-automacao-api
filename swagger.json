@@ -88,6 +88,12 @@
           "201": { "description": "Transferência realizada" },
           "400": { "description": "Erro na transferência" }
         }
+      },
+      "get": {
+        "summary": "Listar transferências",
+        "responses": {
+          "200": { "description": "Lista de transferências" }
+        }
       }
     }
   }
