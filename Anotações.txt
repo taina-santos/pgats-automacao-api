@@ -27,5 +27,9 @@ No arquivo de rotas, é possível saber se o enpoint precisa ou não estar logad
 
 Caso algum parâmetro da requisição esteja errado, cabe a camada de service informar para as camadas superiores do erro
 
-A arquitetura criada pelo copilot tem os seguintes erros estruturais:
-  - 
+A arquitetura criada pelo copilot tem os seguintes erros estruturais
+
+SuperTest é uma lib usada para testes de API, e ela permite que se faça requisições, extraia informações e valide os dados
+  - SuperTest é o postman por linha de comando
+  - É preciso instalar o mocha para teste de unidade e chai para as asserções
+  - Também instalaremos o sinon, que nos ajudará a mockar as informações externas ao controller, nesse caso, será mockado a camada de serviço, usado para testes de componente

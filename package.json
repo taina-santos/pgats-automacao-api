@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "mocha 'test/**/*.test.js' --timeout 10000"
   },
   "dependencies": {
+    "chai": "^6.0.1",
     "express": "^4.18.2",
+    "mocha": "^11.7.2",
+    "sinon": "^21.0.0",
+    "supertest": "^7.1.4",
     "swagger-ui-express": "^4.6.3"
   }
 }
