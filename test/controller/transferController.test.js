@@ -6,22 +6,15 @@ const { expect } = require('chai');
 // Chamadas da aplicação em si
 const app = require('../../app');
 
+// Mock
+const transferService = require('../../service/transferService');
+
 // TESTES
 
 // Teste sem o simulador
 // Describe é um grupo de testes, e vou botar o nome do que estou testando
 describe('Transfer controller', () => {
   describe('POST /transfer', () => {
-    it.skip('Quando uso dados válidos, o retorno será 201', async () => {
-      const resposta = await request(app)
-        .post('/transfer')
-        .send({
-          from: "user1",
-          to: "user2",
-          amount: 100
-        });
-    });
-
     it('Quando informo remetente e destinatário inexistente, o retorno será 400', async () => {
       const resposta = await request(app)
         .post('/transfer')
@@ -33,6 +26,51 @@ describe('Transfer controller', () => {
       
       expect(resposta.status).to.equal(400);
       expect(resposta.body).to.have.property('error', 'Usuário remetente ou destinatário não encontrado')
+    });
+
+    // Dentro do módulo de controller, nós usamos mock nos testes
+    it('Usando mocks: quando informo remetente e destinatário inexistente, o retorno será 400', async () => {
+      // Preciso saber quais as funções que são chamadas no controller específico que quero testar, nesse caso o post /transfer
+      // Mockar apenas a função transfer do service
+      const transferServiceMock = sinon.stub(transferService, 'transfer');
+      transferServiceMock.throws(new Error('Usuário remetente ou destinatário não encontrado'));
+
+      const resposta = await request(app)
+        .post('/transfer')
+        .send({
+          from: "user1",
+          to: "user2",
+          amount: 100
+        });
+      
+      expect(resposta.status).to.equal(400);
+      expect(resposta.body).to.have.property('error', 'Usuário remetente ou destinatário não encontrado')
+
+      // Resetar o mock
+      sinon.restore();
+    });
+
+    it('Usando mocks: quando uso dados válidos, o retorno será 201', async () => {
+      const transferServiceMock = sinon.stub(transferService, 'transfer');
+      transferServiceMock.returns({
+        from: "user1",
+        to: "user2",
+        amount: 100,
+        date: new Date().toISOString()
+      });
+
+      const resposta = await request(app)
+        .post('/transfer')
+        .send({
+          from: "user1",
+          to: "user2",
+          amount: 100
+        });
+      
+        expect(resposta.status).to.equal(201);
+      
+      // Resetar o mock
+      sinon.restore();
     });
   });
 
