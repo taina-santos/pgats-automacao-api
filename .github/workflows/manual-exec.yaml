@@ -1,0 +1,25 @@
+name: 'Execução manual'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Baixando o node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+      
+      - name: Instalando dependências
+        run: npm install
+      
+      - name: Instalando as dependências
+        run: npm install mocha supertest chai sinon
+      
+      - name: Rodando os testes
+        run: npm test ./test/controller/transferController.test.js

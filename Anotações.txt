@@ -1,0 +1,35 @@
+-- AULA 01
+
+O projeto normalmente está contido dentro da pasta src, dividido entre model e service, e ambos não acessáveis
+  - Neste caso, é um projeto mais simples, então não temos o src
+  - O model é quem interage com o banco de dados
+  - O service é onde está a regra de negócio
+
+Nos testes, precisamos de um alvo (a feature) e precisamos mockar é qualquer coisa que não está no alvo (exemplo: acesso ao banco de dados)
+
+As chamadas feitas pela a API não acessam a camada de model, a API chamará o service, que chamará o model
+
+REST é um estilo de arquitetura de API, um jeito com o qual API são criadas
+  - API é a interface que se comunica com seu código
+  - É preciso ter um servidor rodando, geralmente via HTTP (podemos usar postman)
+  - No caso do js, o rest tem que ter o app.js, pois é onde ele vai levantar o servidor
+    - Nesse arquivo app.js, a gente tem nossas rotas (endpoint)
+
+Na prática:
+  REST - Alguém chama o http
+  REST - Ele chama um endpoint
+  REST - O endpoint chamará o tipo de request (get/post/put/delete)
+  APLICAÇÃO - O request chamará o método da camada de service para realizar a operação
+  APLICAÇÃO - O método service chamará o método na camada de model, que irá se conectar com o db para coletar os dados usados para a operação
+
+No arquivo de rotas, é possível saber se o enpoint precisa ou não estar logado, através da validação do token
+  - Essa validação é feita na camada de controller
+
+Caso algum parâmetro da requisição esteja errado, cabe a camada de service informar para as camadas superiores do erro
+
+A arquitetura criada pelo copilot tem os seguintes erros estruturais
+
+SuperTest é uma lib usada para testes de API, e ela permite que se faça requisições, extraia informações e valide os dados
+  - SuperTest é o postman por linha de comando
+  - É preciso instalar o mocha para teste de unidade e chai para as asserções
+  - Também instalaremos o sinon, que nos ajudará a mockar as informações externas ao controller, nesse caso, será mockado a camada de serviço, usado para testes de componente
