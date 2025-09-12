@@ -5,11 +5,13 @@ exports.transfer = (req, res) => {
   if (!from || !to || typeof amount !== 'number') {
     return res.status(400).json({ error: 'Campos obrigatórios: from, to, amount (number)' });
   }
-  const result = transferService.transfer({ from, to, amount });
-  if (result.error) {
-    return res.status(400).json({ error: result.error });
+
+  try {
+    const transfer = transferService.transfer({ from, to, amount });
+    res.status(201).json(transfer);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
-  res.status(201).json({ transfer: result.transfer });
 };
 
 exports.listTransfers = (req, res) => {
