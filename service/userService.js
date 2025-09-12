@@ -6,19 +6,22 @@ function findUserByUsername(username) {
 
 function registerUser({ username, password, favorecidos = [] }) {
   if (findUserByUsername(username)) {
-    return { error: 'Usuário já existe' };
+    throw new Error('Usuário já existe');
   }
+
   const user = { username, password, favorecidos, saldo: 10000 };
   users.push(user);
-  return { user };
+
+  return user;
 }
 
 function authenticateUser({ username, password }) {
   const user = findUserByUsername(username);
   if (!user || user.password !== password) {
-    return { error: 'Credenciais inválidas' };
+    throw new Error('Credenciais inválidas');
   }
-  return { user };
+
+  return user;
 }
 
 function listUsers() {
