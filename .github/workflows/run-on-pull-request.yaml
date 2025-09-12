@@ -1,4 +1,4 @@
-name: 'Execução manual'
+name: 'Validando o pull request'
 
 on:
   push:
