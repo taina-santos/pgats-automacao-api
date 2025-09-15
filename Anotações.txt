@@ -33,3 +33,20 @@ SuperTest é uma lib usada para testes de API, e ela permite que se faça requis
   - SuperTest é o postman por linha de comando
   - É preciso instalar o mocha para teste de unidade e chai para as asserções
   - Também instalaremos o sinon, que nos ajudará a mockar as informações externas ao controller, nesse caso, será mockado a camada de serviço, usado para testes de componente
+
+Se no teste da requisição houver um retorno 500, significa que o dev não tratou o erro (utilizando o bloco de try/catch)
+  - Quando fizer os testes do projeto final, reescrever o código (se necessário)
+  - Analisar o código é bom para garantir um código mais seguro
+
+O app.js é nossa api, e a diferença é que o teste do controller olha para dentro do projeto, enquanto o teste da api procura ele na web
+  - O nosso app é o que está expondo a api
+  - O nosso server é o servidor web que está expondo a api via http
+
+Para fazer teste real no servidor com rest, o request não será feito para o app (no caso, request(app))
+  - Para isso, a gente sobe o servidor real, se não, não funcionará
+  - Porém, há uma demora maior (mas ainda sim mínima) do que testar localmente ou com mock
+  - Mesmo com a demora, é necessário esse tipo de teste para garantir a comunicação real entre as partes
+  - Nesse caso, a diferença entre testar diretamente o controlador e o servidor real é a porta onde o servidor ta hospedado, podemos validar se o servidor está no ar corretamente
+    - As vezes, pode haver erro de compatibilidade entre a máquina onde está o servidor com libs usadas no projeto
+  - No método de request, ao invés do app, chamaremos o endereço http (request('http://localhost:3000'))
+    - Antes de rodar os testes externos, é preciso colocar o servidor no ar primeiro

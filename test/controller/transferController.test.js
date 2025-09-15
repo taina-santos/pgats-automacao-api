@@ -15,6 +15,9 @@ const transferService = require('../../service/transferService');
 // Describe é um grupo de testes, e vou botar o nome do que estou testando
 describe('Transfer controller', () => {
   describe('POST /transfer', () => {
+    //---------------------------------------------
+    // TESTE SEM MOCK, CHAMANDO DIRETAMENTE O APP
+    //---------------------------------------------
     it('Quando informo remetente e destinatário inexistente, o retorno será 400', async () => {
       const resposta = await request(app)
         .post('/transfer')
@@ -28,6 +31,9 @@ describe('Transfer controller', () => {
       expect(resposta.body).to.have.property('error', 'Usuário remetente ou destinatário não encontrado')
     });
 
+    //---------------------------------------------
+    // TESTE COM MOCK
+    //---------------------------------------------
     // Dentro do módulo de controller, nós usamos mock nos testes
     it('Usando mocks: quando informo remetente e destinatário inexistente, o retorno será 400', async () => {
       // Preciso saber quais as funções que são chamadas no controller específico que quero testar, nesse caso o post /transfer
