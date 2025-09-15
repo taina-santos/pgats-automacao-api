@@ -1,10 +1,7 @@
-name: 'Validando o pull request'
+name: 'Execução manual do teste de controller'
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   test:
@@ -20,9 +17,6 @@ jobs:
       
       - name: Instalando dependências
         run: npm install
-      
-      - name: Rodando os testes de controller
-        run: npm run test-controller
       
       - name: Iniciando o servidor
         run: npm start &

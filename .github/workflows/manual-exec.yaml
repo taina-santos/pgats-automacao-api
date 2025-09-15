@@ -18,8 +18,5 @@ jobs:
       - name: Instalando dependências
         run: npm install
       
-      - name: Instalando as dependências
-        run: npm install mocha supertest chai sinon
-      
       - name: Rodando os testes
         run: npm test
