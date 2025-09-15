@@ -8,8 +8,8 @@ const app = express();
 app.use(express.json());
 
 // User routes
-app.post('/register', userController.register);
-app.post('/login', userController.login);
+app.post('/users/register', userController.register);
+app.post('/users/login', userController.login);
 app.get('/users', userController.list);
 
 // Transfer route

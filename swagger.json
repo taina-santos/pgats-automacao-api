@@ -6,7 +6,7 @@
     "description": "API para login, registro, consulta de usuários e transferências."
   },
   "paths": {
-    "/register": {
+    "/users/register": {
       "post": {
         "summary": "Registrar novo usuário",
         "requestBody": {
@@ -32,7 +32,7 @@
         }
       }
     },
-    "/login": {
+    "/users/login": {
       "post": {
         "summary": "Login de usuário",
         "requestBody": {
