@@ -1,7 +1,12 @@
 // Fazendo as chamadas das bibliotecas
 const request = require('supertest');
 const sinon = require('sinon');
-const { expect } = require('chai');
+const { expect, use } = require('chai');
+
+// Declarando o plugin do chai exclude para excluir os valores dinâmicos
+const chaiExclude = require('chai-exclude');
+
+use(chaiExclude);
 
 // Chamadas da aplicação em si
 const app = require('../../app');
@@ -56,7 +61,7 @@ describe('Transfer controller', () => {
       sinon.restore();
     });
 
-    it('Usando mocks: quando uso dados válidos, o retorno será 201', async () => {
+    it.only('Usando mocks: quando uso dados válidos, o retorno será 201', async () => {
       const transferServiceMock = sinon.stub(transferService, 'transfer');
       transferServiceMock.returns({
         from: "user1",
@@ -73,8 +78,25 @@ describe('Transfer controller', () => {
           amount: 100
         });
       
-        expect(resposta.status).to.equal(201);
-      
+      expect(resposta.status).to.equal(201);
+      // expect(resposta.body).to.have.property('from', 'user1');
+      // expect(resposta.body).to.have.property('to', 'user2');
+      // expect(resposta.body).to.have.property('amount', 100);
+
+      // Validação com fixute
+      // Prepara todos os dados, carrega o arquivo e prepara a forma de ignorar os campos dinâmicos
+      const respostaEsperada = require('../fixture/responses/respostaTransferController201.json');
+      // delete resposta.body.date;
+      // delete respostaEsperada.date;
+
+      // Para validar cada campo do resposta body, fazemos um único expect para comparar a resposta.body com a string contida no arquivo
+      // O 'to deep equal' é um método de comparação recursivo, ou seja, não importa a ordem do json
+      // Já o apenas 'to equal' compara o valor E a referência, e como foram criados de maneira diferente, o teste retornaria um erro
+      // O 'to eql' === 'to deep equal'
+
+      // expect(resposta.body).to.deep.equal(respostaEsperada);
+      expect(resposta.body).excluding('date').to.deep.equal(respostaEsperada);
+
       // Resetar o mock
       sinon.restore();
     });

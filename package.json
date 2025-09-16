@@ -9,7 +9,7 @@
     "test-external": "mocha test/external/**/*.test.js --timeout 1000"
   },
   "dependencies": {
-    "chai": "^6.0.1",
+    "chai": "^4.3.7",
     "express": "^4.18.2",
     "mocha": "^11.7.2",
     "sinon": "^21.0.0",
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@types/chai": "^5.2.2",
     "@types/sinon": "^17.0.4",
-    "@types/supertest": "^6.0.3"
+    "@types/supertest": "^6.0.3",
+    "chai-exclude": "^2.1.1"
   }
 }

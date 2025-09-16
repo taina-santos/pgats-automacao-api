@@ -50,3 +50,11 @@ Para fazer teste real no servidor com rest, o request não será feito para o ap
     - As vezes, pode haver erro de compatibilidade entre a máquina onde está o servidor com libs usadas no projeto
   - No método de request, ao invés do app, chamaremos o endereço http (request('http://localhost:3000'))
     - Antes de rodar os testes externos, é preciso colocar o servidor no ar primeiro
+
+Para validar as respostas vinda do servidor, eu faço comparação com o arquivo de respostas que fica em fixutres
+  - Pra isso, a gente prepara os dados e carrega o arquivo, ignorando os campos dinâmicos
+  - A gente compara o body da resposta com os dados do arquivo carregado
+  - É preciso ter um fixture para cada resposta
+  - Uma boa prática não alterar o campo dinâmico para fazer o teste passar, e sim remover com delete
+    - Mas é possível sim atualizar o valor dinâmico dentro do fixture para validação do teste
+  - Há um plugin pro javascript chamado chai exclude que exclui os valores que não quero
