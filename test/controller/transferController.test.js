@@ -8,6 +8,10 @@ const chaiExclude = require('chai-exclude');
 
 use(chaiExclude);
 
+// Criando o mock de autenticação antes da chamada do app em si, pois assim não será necessário o uso do token nos testes de controller
+const auth = require('../../middleware/auth');
+sinon.stub(auth, 'authenticateToken').callsFake((_req, _res, next) => next());
+
 // Chamadas da aplicação em si
 const app = require('../../app');
 
@@ -19,6 +23,11 @@ const transferService = require('../../service/transferService');
 // Teste sem o simulador
 // Describe é um grupo de testes, e vou botar o nome do que estou testando
 describe('Transfer controller', () => {
+  // Criando after para restaurar o stub do token de autenticação
+  after(() => {
+    sinon.restore();
+  });
+
   describe('POST /transfer', () => {
     //---------------------------------------------
     // TESTE SEM MOCK, CHAMANDO DIRETAMENTE O APP
@@ -57,11 +66,11 @@ describe('Transfer controller', () => {
       expect(resposta.status).to.equal(400);
       expect(resposta.body).to.have.property('error', 'Usuário remetente ou destinatário não encontrado')
 
-      // Resetar o mock
-      sinon.restore();
+      // Resetar o mock de transferService
+      transferServiceMock.restore();
     });
 
-    it.only('Usando mocks: quando uso dados válidos, o retorno será 201', async () => {
+    it('Usando mocks: quando uso dados válidos, o retorno será 201', async () => {
       const transferServiceMock = sinon.stub(transferService, 'transfer');
       transferServiceMock.returns({
         from: "user1",
@@ -97,8 +106,8 @@ describe('Transfer controller', () => {
       // expect(resposta.body).to.deep.equal(respostaEsperada);
       expect(resposta.body).excluding('date').to.deep.equal(respostaEsperada);
 
-      // Resetar o mock
-      sinon.restore();
+      // Resetar o mock de transferService
+      transferServiceMock.restore();
     });
   });
 
