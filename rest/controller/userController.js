@@ -1,4 +1,4 @@
-const userService = require('../service/userService');
+const userService = require('../../src/service/userService');
 const { generateToken } = require('../middleware/auth');
 
 exports.register = (req, res) => {

@@ -9,14 +9,14 @@ const chaiExclude = require('chai-exclude');
 use(chaiExclude);
 
 // Criando o mock de autenticação antes da chamada do app em si, pois assim não será necessário o uso do token nos testes de controller
-const auth = require('../../middleware/auth');
+const auth = require('../../rest/middleware/auth');
 sinon.stub(auth, 'authenticateToken').callsFake((_req, _res, next) => next());
 
 // Chamadas da aplicação em si
-const app = require('../../app');
+const app = require('../../rest/app');
 
 // Mock
-const transferService = require('../../service/transferService');
+const transferService = require('../../src/service/transferService');
 
 // TESTES
 

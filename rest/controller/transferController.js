@@ -1,4 +1,4 @@
-const transferService = require('../service/transferService');
+const transferService = require('../../src/service/transferService');
 
 exports.transfer = (req, res) => {
   const { from, to, amount } = req.body;
