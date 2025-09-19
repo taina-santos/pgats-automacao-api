@@ -9,8 +9,8 @@ const chaiExclude = require('chai-exclude');
 use(chaiExclude);
 
 // Criando o mock de autenticação antes da chamada do app em si, pois assim não será necessário o uso do token nos testes de controller
-const auth = require('../../rest/middleware/auth');
-sinon.stub(auth, 'authenticateToken').callsFake((_req, _res, next) => next());
+// const auth = require('../../rest/middleware/auth');
+// sinon.stub(auth, 'authenticateToken').callsFake((_req, _res, next) => next());
 
 // Chamadas da aplicação em si
 const app = require('../../rest/app');
@@ -18,25 +18,42 @@ const app = require('../../rest/app');
 // Mock
 const transferService = require('../../src/service/transferService');
 
+// Criando a variável do token para usar nos testes e evitar 403
+var token;
+
 // TESTES
 
 // Teste sem o simulador
 // Describe é um grupo de testes, e vou botar o nome do que estou testando
 describe('Transfer controller', () => {
-  // Criando after para restaurar o stub do token de autenticação
-  after(() => {
-    sinon.restore();
-  });
-
   describe('POST /transfer', () => {
+    // Criando o before para fazer a captura do token após o login
+    // Como o token dura uma hora, não seria um problema usar um before ao invés do beforeEach
+    beforeEach(async () => {
+      const login = await request(app)
+          .post('/users/login')
+          .send({
+            username: 'taina',
+            password: '123456'
+          });
+
+        token = login.body.token;
+    });
+
+    // Criando after para restaurar o stub do token de autenticação
+    afterEach(() => {
+      sinon.restore();
+    });
+    
     //---------------------------------------------
     // TESTE SEM MOCK, CHAMANDO DIRETAMENTE O APP
     //---------------------------------------------
     it('Quando informo remetente e destinatário inexistente, o retorno será 400', async () => {
       const resposta = await request(app)
         .post('/transfer')
+        .set('Authorization', `Bearer ${token}`)
         .send({
-          from: "user1",
+          from: "taina",
           to: "user2",
           amount: 100
         });
@@ -57,8 +74,9 @@ describe('Transfer controller', () => {
 
       const resposta = await request(app)
         .post('/transfer')
+        .set('Authorization', `Bearer ${token}`)
         .send({
-          from: "user1",
+          from: "taina",
           to: "user2",
           amount: 100
         });
@@ -67,7 +85,7 @@ describe('Transfer controller', () => {
       expect(resposta.body).to.have.property('error', 'Usuário remetente ou destinatário não encontrado')
 
       // Resetar o mock de transferService
-      transferServiceMock.restore();
+      // sinon.restore();
     });
 
     it('Usando mocks: quando uso dados válidos, o retorno será 201', async () => {
@@ -81,6 +99,7 @@ describe('Transfer controller', () => {
 
       const resposta = await request(app)
         .post('/transfer')
+        .set('Authorization', `Bearer ${token}`)
         .send({
           from: "user1",
           to: "user2",
@@ -107,7 +126,7 @@ describe('Transfer controller', () => {
       expect(resposta.body).excluding('date').to.deep.equal(respostaEsperada);
 
       // Resetar o mock de transferService
-      transferServiceMock.restore();
+      //  sinon.restore();
     });
   });
 
