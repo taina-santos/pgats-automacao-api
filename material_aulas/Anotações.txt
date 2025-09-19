@@ -68,3 +68,46 @@ O teste external e controller são testes funcionais em camadas diferentes
       - Verifica se o sistema se comunica corretamente
     - Nível de regra de negócio 
       - Verifica se as funcionalidades isoladas se comunicam corretamente
+
+No GraphQL não tem os métodos que encontramos no rest
+  - Tudo é feito por POST
+  - Dentro do body desse POST, a gente tem um json com uma propriedade chamada query e dentro do valor dela, a gente faz a query
+
+Uma API pode ser exposta por diversos modelos de arquitetura, como rest e GraphQL
+  - O rest é estruturado de forma pré definida
+  - No rest, nossas operações são acessadas através dos endpoints
+  - O GraphQL, você pode definir qual o tipo de resposta que você quer ter
+  - No graphql, você faz apenas um post no host e a query é o que determina qual recurso queremos fazer uso
+
+Mutation é algum tipo de ação que ocorre no servidor que altera o seu estado
+  - Não serve para fazer teste de mutação
+  - Query nunca muda o estado do servidor, mutation sim
+  - O dev que decide quais mutations deveriam existir
+  - Mutation atua como post, delete e put porque altera alguma coisa no servidor
+
+O GraphQL é uma camada mais acima, e portanto, podemos ter GraphQL e REST no mesmo projeto
+
+Uma query em graphql:
+query Transferâncias {
+  transferências {
+    // campos para realizar transferências
+  }
+}
+
+ApolloServer é uma ferramenta de explorer conhecida para GraphQL
+
+Na pasta GraphQL, nós temos o resolver, o schema, o app e o typeDef
+  - O typeDef é os tipos que a gente vê no apollo, o equivalente as rotas do rest
+  - O app é onde inicia o servidor, importando os typeDef e os resolvers
+  - No schema é onde a gente fala a localização dos arquivos que chamamos
+  - O resolver é o equivalente ao controller do rest
+
+É possível sim fazer requisições do GraphQL usando postman
+  - As reqs são do tipo POST
+  - O json do body seria algo como:
+    - "query": "query Contas { contas { id ativa } }"
+      - A mesma lógica se aplica ao fazer um script de teste automatizado usando o SuperTest
+    - No postman é possível usar a configuração de GraphQL para montar o body
+  - Por tipo json, um mutation seria algo como:
+    - "query": "mutation Login{ ... }",
+      "variables": { ... }

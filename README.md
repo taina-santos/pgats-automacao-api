@@ -46,3 +46,58 @@ Esta API permite o registro, login, consulta de usuários e transferências de v
 
 ## Documentação Swagger
 Acesse [http://localhost:3000/api-docs](http://localhost:3000/api-docs) após iniciar o servidor para visualizar e testar os endpoints.
+
+## API GraphQL
+
+A API GraphQL está disponível na pasta `graphql` e expõe os mesmos serviços da API REST.
+
+### Instalação de dependências GraphQL
+Execute:
+```sh
+npm install apollo-server-express graphql jsonwebtoken
+```
+
+### Como rodar a API GraphQL
+
+1. Inicie o servidor GraphQL:
+   ```sh
+   npm run start-graphql
+   ```
+   O servidor rodará por padrão na porta 4000.
+
+2. Acesse o playground GraphQL em [http://localhost:4000/graphql](http://localhost:4000/graphql)
+
+### Queries e Mutations disponíveis
+
+- **Query users**: Lista todos os usuários
+- **Query transfers**: Lista todas as transferências
+- **Mutation register**: Registra novo usuário
+- **Mutation login**: Realiza login e retorna JWT
+- **Mutation transfer**: Realiza transferência (requer JWT no header Authorization)
+
+#### Exemplo de Mutation de Login
+```graphql
+mutation {
+  login(username: "user1", password: "senha") {
+    message
+    user { username favorecidos saldo }
+    token
+  }
+}
+```
+
+#### Exemplo de Mutation de Transferência (com JWT)
+```graphql
+mutation {
+  transfer(from: "user1", to: "user2", amount: 100) {
+    from
+    to
+    amount
+    date
+  }
+}
+```
+No header, inclua:
+```
+Authorization: Bearer <token>
+```
