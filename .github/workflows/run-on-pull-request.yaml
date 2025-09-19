@@ -1,4 +1,4 @@
-name: 'Execução manual'
+name: 'Validando o pull request'
 
 on:
   push:
@@ -21,8 +21,23 @@ jobs:
       - name: Instalando dependências
         run: npm install
       
-      - name: Instalando as dependências
-        run: npm install mocha supertest chai sinon
+      - name: Rodando os testes de controller
+        run: npm run test-controller
       
-      - name: Rodando os testes
-        run: npm test
+      - name: Iniciando o servidor rest
+        run: npm run start-rest &
+      
+      - name: Aguardando a API subir
+        run: sleep 5
+      
+      - name: Rodando os testes de api rest
+        run: npm run test-external
+      
+      - name: Iniciando o servidor graphql
+        run: npm run start-graphql &
+      
+      - name: Aguardando a API subir
+        run: sleep 5
+      
+      - name: Rodando os testes de api graphql
+        run: npm run test-external-graphql

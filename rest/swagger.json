@@ -5,8 +5,17 @@
     "version": "1.0.0",
     "description": "API para login, registro, consulta de usuários e transferências."
   },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
   "paths": {
-    "/register": {
+    "/users/register": {
       "post": {
         "summary": "Registrar novo usuário",
         "requestBody": {
@@ -32,7 +41,7 @@
         }
       }
     },
-    "/login": {
+    "/users/login": {
       "post": {
         "summary": "Login de usuário",
         "requestBody": {
@@ -51,7 +60,21 @@
           }
         },
         "responses": {
-          "200": { "description": "Login realizado" },
+          "200": { 
+            "description": "Login realizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "user": { "type": "object" },
+                    "token": { "type": "string", "description": "JWT Token para autenticação" }
+                  }
+                }
+              }
+            }
+          },
           "401": { "description": "Credenciais inválidas" },
           "400": { "description": "Dados inválidos" }
         }
@@ -68,6 +91,7 @@
     "/transfer": {
       "post": {
         "summary": "Transferir valores",
+        "security": [{"bearerAuth": []}],
         "requestBody": {
           "required": true,
           "content": {
@@ -86,13 +110,18 @@
         },
         "responses": {
           "201": { "description": "Transferência realizada" },
-          "400": { "description": "Erro na transferência" }
+          "400": { "description": "Erro na transferência" },
+          "401": { "description": "Token de acesso requerido" },
+          "403": { "description": "Token inválido" }
         }
       },
       "get": {
         "summary": "Listar transferências",
+        "security": [{"bearerAuth": []}],
         "responses": {
-          "200": { "description": "Lista de transferências" }
+          "200": { "description": "Lista de transferências" },
+          "401": { "description": "Token de acesso requerido" },
+          "403": { "description": "Token inválido" }
         }
       }
     }

@@ -1,4 +1,5 @@
-const userService = require('../service/userService');
+const userService = require('../../src/service/userService');
+const { generateToken } = require('../middleware/auth');
 
 exports.register = (req, res) => {
   const { username, password, favorecidos } = req.body;
@@ -23,7 +24,12 @@ exports.login = (req, res) => {
 
   try {
     const user = userService.authenticateUser({ username, password });
-    res.json({ message: 'Login realizado com sucesso', user: user });
+    const token = generateToken(user);
+    res.json({ 
+      message: 'Login realizado com sucesso', 
+      user: user,
+      token: token
+    });
   } catch (error) {
     res.status(401).json({ error: error.message });
   }

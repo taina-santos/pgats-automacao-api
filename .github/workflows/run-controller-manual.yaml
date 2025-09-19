@@ -1,4 +1,4 @@
-name: 'Execução manual'
+name: 'Execução manual do teste de api'
 
 on:
   workflow_dispatch:
@@ -20,12 +20,3 @@ jobs:
       
       - name: Rodando os testes de controller
         run: npm run test-controller
-      
-      - name: Iniciando o servidor
-        run: npm start &
-      
-      - name: Aguardando a API subir
-        run: sleep 5
-      
-      - name: Rodando os testes de api
-        run: npm run test-external

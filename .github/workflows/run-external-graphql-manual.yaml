@@ -1,4 +1,4 @@
-name: 'Execução manual'
+name: 'Execução manual do teste de controller'
 
 on:
   workflow_dispatch:
@@ -18,14 +18,11 @@ jobs:
       - name: Instalando dependências
         run: npm install
       
-      - name: Rodando os testes de controller
-        run: npm run test-controller
-      
       - name: Iniciando o servidor
-        run: npm start &
+        run: npm run start-graphql &
       
       - name: Aguardando a API subir
         run: sleep 5
       
       - name: Rodando os testes de api
-        run: npm run test-external
+        run: npm run test-external-graphql
