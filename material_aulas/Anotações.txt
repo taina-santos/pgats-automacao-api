@@ -58,3 +58,13 @@ Para validar as respostas vinda do servidor, eu faço comparação com o arquivo
   - Uma boa prática não alterar o campo dinâmico para fazer o teste passar, e sim remover com delete
     - Mas é possível sim atualizar o valor dinâmico dentro do fixture para validação do teste
   - Há um plugin pro javascript chamado chai exclude que exclui os valores que não quero
+
+O teste external e controller são testes funcionais em camadas diferentes
+  - Controller testa a camada de unidade do componente
+    - Para fazer teste de integração entre componentes como service e controller, a gente mocka o model
+  - External testa a camada de e2e
+    - e2e pode existir a nível de teste 
+      - Verifica se as camadas se comunicam corretamente
+      - Verifica se o sistema se comunica corretamente
+    - Nível de regra de negócio 
+      - Verifica se as funcionalidades isoladas se comunicam corretamente
