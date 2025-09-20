@@ -50,7 +50,7 @@ describe('External transfer via HTTP', () => {
           amount: 100
         });
 
-      const respostaEsperada = require('../fixture/responses/respostaTransferExternal201.json');
+      const respostaEsperada = require('../fixture/responses/respostaTransferExternalSucesso.json');
       expect(resposta.status).to.equal(201);
       expect(resposta.body).excluding('date').to.deep.equal(respostaEsperada);
     });
