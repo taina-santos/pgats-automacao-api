@@ -2,8 +2,9 @@ const request = require('supertest');
 const { expect, use } = require('chai');
 const chaiExclude = require('chai-exclude');
 use(chaiExclude);
+require('dotenv').config();
 
-const host = 'http://localhost:4000/graphql';
+const host = process.env.BASE_URL_GRAPHQL;
 var token;
 
 describe('External transfer via GraphQL', () => {

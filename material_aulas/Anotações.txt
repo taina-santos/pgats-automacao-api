@@ -111,3 +111,8 @@ Na pasta GraphQL, nós temos o resolver, o schema, o app e o typeDef
   - Por tipo json, um mutation seria algo como:
     - "query": "mutation Login{ ... }",
       "variables": { ... }
+
+Para lidar com diferentes ambientes, a gente cria o arquivo .env, após instalarmos a dependência dotenv
+  - Esse arquivo não é versionado e é preciso criá-lo durante a execução da pipeline
+  - No settings do github do nosso projeto, nós criamos as variáveis como action secrets e chamamos no script da pipeline como:
+    `echo "BASE_URL_REST=${{ secrets.VARIÁVEL-SETADA-NO-GITHUB }}" >> .env`
