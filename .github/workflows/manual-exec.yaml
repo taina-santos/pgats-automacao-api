@@ -19,13 +19,27 @@ jobs:
         run: npm install
       
       - name: Rodando os testes de controller
-        run: npm run test-controller
+        run: npm run test-controller-rest
       
-      - name: Iniciando o servidor
-        run: npm start &
+      - name: Criar o .env
+        run:
+          echo "BASE_URL_REST=${{ secrets.BASE_URL_REST }}" >> .env
+          echo "BASE_URL_GRAPHQL=${{ secrets.BASE_URL_GRAPHQL}}" >> .env
+      
+      - name: Iniciando o servidor rest
+        run: npm run start-rest &
       
       - name: Aguardando a API subir
         run: sleep 5
       
-      - name: Rodando os testes de api
-        run: npm run test-external
+      - name: Rodando os testes de api rest
+        run: npm run test-external-rest
+      
+      - name: Iniciando o servidor graphql
+        run: npm run start-graphql &
+      
+      - name: Aguardando a API subir
+        run: sleep 5
+      
+      - name: Rodando os testes de api graphql
+        run: npm run test-external-graphql

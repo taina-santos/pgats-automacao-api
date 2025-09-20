@@ -13,10 +13,10 @@ use(chaiExclude);
 // sinon.stub(auth, 'authenticateToken').callsFake((_req, _res, next) => next());
 
 // Chamadas da aplicação em si
-const app = require('../../rest/app');
+const app = require('../../../rest/app');
 
 // Mock
-const transferService = require('../../src/service/transferService');
+const transferService = require('../../../src/service/transferService');
 
 // Criando a variável do token para usar nos testes e evitar 403
 var token;

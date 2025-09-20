@@ -19,6 +19,10 @@ Esta API permite o registro, login, consulta de usuários e transferências de v
    npm install express swagger-ui-express
    ```
 
+## Configuração
+
+Antes de seguir, crie um arquivo .env na pasta razi contendo as propriedades BASE_URL_REST e BASE_URL_GRAPHQL com a URL desses serviços
+
 ## Como rodar a API
 
 - Para iniciar o servidor:

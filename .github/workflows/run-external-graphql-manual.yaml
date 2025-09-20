@@ -18,6 +18,10 @@ jobs:
       - name: Instalando dependências
         run: npm install
       
+      - name: Criar o .env
+        run:
+          echo "BASE_URL_GRAPHQL=${{ secrets.BASE_URL_GRAPHQL}}" >> .env
+      
       - name: Iniciando o servidor
         run: npm run start-graphql &
       

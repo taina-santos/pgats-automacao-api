@@ -2,8 +2,9 @@ const request = require('supertest');
 const { expect, use } = require('chai');
 const chaiExclude = require('chai-exclude');
 use(chaiExclude);
+require('dotenv').config();
 
-const host = 'http://localhost:3000';
+const host = process.env.BASE_URL_REST;
 var token;
 
 describe('External transfer via HTTP', () => {
@@ -50,7 +51,7 @@ describe('External transfer via HTTP', () => {
           amount: 100
         });
 
-      const respostaEsperada = require('../fixture/responses/respostaTransferExternal201.json');
+      const respostaEsperada = require('../fixture/responses/respostaTransferExternalSucesso.json');
       expect(resposta.status).to.equal(201);
       expect(resposta.body).excluding('date').to.deep.equal(respostaEsperada);
     });
