@@ -22,7 +22,7 @@ jobs:
         run: npm install
       
       - name: Rodando os testes de controller
-        run: npm run test-controller
+        run: npm run test-controller-rest
       
       - name: Iniciando o servidor rest
         run: npm run start-rest &
